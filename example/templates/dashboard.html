@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USER DASHBOARD</title>
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      {% if request.user.is_authenticated %}
+        {% if user.principal %}
+        
+        <p>Username: {{request.user.username}} </p>
+        <p>Full Name: {{request.user.first_name}} {{request.user.last_name}}</p>
+        <p>Phone Number: {{user.principal.phone}} </p>
+        <p>Email: {{request.user.email}} </p>
+
+        <hr>
+
+        <h3>Staff Details</h3>
+          <table style="border: 1px solid rgb(0, 0, 0);">
+            <thead style="border: 1px solid red; text-align: center;">
+              <td style="border: 1px solid red;">ID</td>
+              <td style="border: 1px solid red;">Names</td>
+              <td style="border: 1px solid red;">Username</td>
+              <td style="border: 1px solid red;">Email</td>
+              <td style="border: 1px solid red;">Staff Role</td>
+              <td style="border: 1px solid red;">Subject Teaching</td>
+            </thead>
+            {% for staff in staffs %}
+              {% if staff.principal.user.username == request.user.username %}
+                <tbody style=" text-align: center;">
+                  <td style="border: 1px solid red; text-align: center;"><p>{{staff.id}}</p></td>
+                  <td style="border: 1px solid red;"><p>{{staff.user.first_name}} {{staff.user.last_name}}</p></td>
+                  <td style="border: 1px solid red;"><p>{{staff.user.username}}</p></td>
+                  <td style="border: 1px solid red;"><p>{{staff.user.email}}</p></td>
+                  <td style="border: 1px solid red;"><p>{{staff.role}}</p></td>
+                  <td style="border: 1px solid red;"><p>{{staff.subjectTeaching}}</p></td>
+                  
+                </tbody>
+              {% endif %}
+            {% endfor %}
+          </table>
+        <br>
+          
+        {% elif user.staff %}
+          <p>Username: {{request.user.username}} </p>
+          <p>Names: {{request.user.first_name}} {{request.user.last_name}}</p>
+          <p>Email: {{request.user.email}} </p>
+          <p>Principal Name: {{user.staff.principal.user.first_name}} {{user.staff.principal.user.last_name}} </p>
+          <p>Role: {{user.staff.role}}.</p>
+
+          {% if user.staff.role.roleName == "Teacher" %}
+          <p>Subject Teaching: {{request.user.staff.subjectTeaching}}</p>
+          <hr>
+          <h3>Student Details</h3>
+          <table style="border: 1px solid rgb(0, 0, 0);">
+            <thead style="border: 1px solid red; text-align: center;">
+              <td style="border: 1px solid red;"> ID </td>
+              <td style="border: 1px solid red;">Names</td>
+              <td style="border: 1px solid red;">|  Grade  |</td>
+            </thead>
+            <tbody>
+              <div class="table-data">
+                <tr style="text-align: center;">
+                  <td style="border: 1px solid red;"><p>1</p></td>
+                  <td style="border: 1px solid red;"><p>First Student</p></td>
+                  <td style="border: 1px solid red;"><p>98</p></td>
+                </tr>
+              
+                <tr style="text-align: center;">
+                  <td style="border: 1px solid red;"><p>2</p></td>
+                  <td style="border: 1px solid red;"><p>Second Student</p></td>
+                  <td style="border: 1px solid red;"><p>80</p></td>
+                </tr>
+              </div>
+            </tbody>
+          </table>
+          <br> 
+          {% endif %}
+      
+          
+        {% endif %}
+
+      <a href="{% url 'logout' %}" class="link">Logout</a>
+      {% endif %}
+
+  
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
